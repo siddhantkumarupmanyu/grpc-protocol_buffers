@@ -1,0 +1,99 @@
+// notes for java based, since kotlin in also around this only
+// understanding this first
+
+// server
+
+first of all, this whole thing is asynchronous. even in java, at least server side...
+so observer and shit.
+
+taking a very simple code example from hello world server side
+
+```java
+static class GreeterImpl extends GreeterGrpc.GreeterImplBase {
+
+    @Override
+    public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
+      HelloReply reply = HelloReply.newBuilder().setMessage("Hello " + req.getName()).build();
+      responseObserver.onNext(reply);
+      responseObserver.onCompleted();
+    }
+
+    @Override
+    public void sayHelloAgain(HelloRequest request, StreamObserver<HelloReply> responseObserver) {
+      super.sayHelloAgain(request, responseObserver);
+    }
+  }
+```
+is this kind of following implementaion inheritence?
+`class GreeterImpl extends GreeterGrpc.GreeterImplBase`
+
+you get a glimpse of what i saying with this simple code.
+this is a server side code, and we are getting a StreamObserver,
+i think it's following what you call collecting parameter pattern or kind of but still idk why i am not liking it.
+whatever, i can't do anything about that rn. i have to play by their rules.
+but i can have wrapper, proxy and shit. we'll see. let's first understand this library or framework or whatever it is.
+
+so StreamObserver is a stream, call onNext to return next reply...
+and then end the stream with onComplete.
+if something fails, call onError.
+
+// client side
+
+`GreeterGrpc.newBlockingStub(channel);`
+we can have a blocking stub here.
+
+ok when you want to Client-side streaming RPC
+then we need to implement that StreamObserver on client side. idk, what's even happening.
+tbh, spring has much better tutorials and guides
+
+
+idk, why i am using kind of too much. lol...
+idk, if i should call this a framework or a library as per Gweepaw Hill's 
+see what i found, lol. it's both lol...
+or it's what they are saying...
+gRPC-Java - An RPC library and framework
+
+
+https://grpc.io/docs/languages/java/basics/#client-side-streaming-rpc
+how can forget at the end this is "RPC".
+and defined if server is adding stuff into SteamObservable, which gets passed to it, 
+client side should be implementing that.
+so the loop is closed or kind of.
+that's way we would achieve that client code calling the collaborator which is running on server side.
+like, make it look like a method call. right?
+make sense, and they wanted streaming support too, so...
+so idk. i haven't worked with rpc or rmi before.
+this is my first time so cannot judge. anything.
+
+but tbh, i am kind of curious and cautious how i want to use this in my code.
+and especially test, integration test.
+there is this thing called inProccess server or something but still we have to see.
+and how to test the client side too.
+idk... let's see.
+i don't want to go heavy, but want to integrate test.
+like the setup shouldn't be as heavy as an e2e test. like pulling up docker actually that would be too heavy.
+but also, not like running in different jvm. or idk. we have to see.
+i have to test this. that i wrote the gRpc code right. not everything.
+so will have to see.
+i have to create a mini project i guess.
+right now in java itself.
+
+then we will move on to kotlin. it's dsls, suspend, ie. coroutines and stuff...
+
+
+this is a good resource tbh,
+https://grpc.io/docs/languages/java/basics/
+and how client side async is working(which is think is needed for client side streaming) and how sync is working.
+
+https://grpc.io/docs/languages/java/basics/#instantiating-a-stub
+
+this is also good resource.
+https://grpc.io/docs/languages/java/generated-code/
+
+also, you can view the examples folder/project in grpc-java.
+it contains a good amount samples of different things'
+
+as i already said,
+"The blocking stub contains one Java method for each unary and server-streaming method in the service definition. Blocking stubs do not support client-streaming or bidirectional-streaming RPCs."
+but it does support server side streaming. https://grpc.io/docs/languages/java/generated-code/#server-streaming-2
+

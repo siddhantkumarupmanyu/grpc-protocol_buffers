@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.example.sample.rcp_services;
+
+option java_multiple_files = true;
+option java_outer_classname = "SampleServiceProto";
+
+service SampleGreeter {
+  rpc SayHello(SampleRequest) returns (SampleReply) { }
+}
+
+message SampleRequest {
+  string name = 1;
+}
+
+message SampleReply {
+  string message = 1;
+}

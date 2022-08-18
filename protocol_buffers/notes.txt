@@ -1,0 +1,12 @@
+https://developers.google.com/protocol-buffers/docs/javatutorial#:~:text=Protocol%20Buffers%20and,oriented%20practice%20anyway.
+
+"is not good object-oriented practice anyway."
+somebody should tell this to their android framework team, lol.
+
+"You should never add behavior to the generated classes by inheriting from them"
+also this one... :)
+implementation inheritance in one word.
+gonna use this word from now on so much, lol...
+
+for kotlin we need both java as well as kotlin out
+protoc-21.5-win64\bin\protoc.exe -I=.\app\src\main\proto --java_out=.\app\src\main\java --kotlin_out=.\app\src\main\kotlin .\app\src\main\proto\addressbook_file.proto
